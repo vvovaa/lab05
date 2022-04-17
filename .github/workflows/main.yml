@@ -18,7 +18,7 @@ jobs:
             cd banking
             cmake -H. -B_build
             cmake --build _build
-  
+          
   Testing:
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +29,7 @@ jobs:
           git submodule update --init
           sudo apt install lcov
           sudo apt install g++-7
-     
+
       - name: test
         shell: bash
         run: |
@@ -38,7 +38,8 @@ jobs:
           cmake --build .
           ./RunTest
           lcov -t "banking" -o lcov.info -c -d .
-  
+
+
   Testing_Coverall:
     runs-on: ubuntu-latest
     steps:
@@ -58,9 +59,7 @@ jobs:
           cmake --build .
           ./RunTest
           lcov -t "banking" -o lcov.info -c -d .
-          lcov --remove lcov.info '/home/runner/work/test/test/third-party/gtest/*' -o lcov.info
-          lcov --remove lcov.info '/usr/include/*' -o lcov.info
-      
+          
       - name: CovBeg
         uses: coverallsapp/github-action@master
         with:
@@ -72,5 +71,5 @@ jobs:
       - name: CovFin
         uses: coverallsapp/github-action@master
         with:
-         github-token: ${{ secrets.github_token }}
-         parallel-finished: true
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
